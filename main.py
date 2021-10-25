@@ -18,6 +18,18 @@ database = Database_class
 class WeatherLayout(App):
     # create an instance of the database class for use here
 
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.skylabel = Label(text='Condition:', size_hint=(.2, .2), pos_hint={'center_x': 0.5, 'center_y': .6})
+        self.timelabel = Label(text='Time', size_hint=(.2, .2), pos_hint={'center_x': 0.5, 'center_y': .7})
+        self.temperaturelabel = Label(text='Temperature:', size_hint=(.2, .2),
+                                      pos_hint={'center_x': 0.5, 'center_y': .5})
+        self.descriptionlabel = Label(text='Enter Location:', size_hint=(.1, .1),
+                                      pos_hint={'center_x': 0.2, 'center_y': .9})
+        self.usery_input = TextInput(size_hint=(.3, .1), pos_hint={'center_x': 0.6, 'center_y': .9})
+        self.userx_input = TextInput(size_hint=(.3, .1), pos_hint={'center_x': 0.2, 'center_y': .9})
+        self.textbox = TextInput(size_hint=(.3, .1), pos_hint={'center_x': 0.5, 'center_y': .9})
+
     def build(self):
         # Create window
         Window.size = (400, 600)
@@ -29,16 +41,6 @@ class WeatherLayout(App):
                         pos_hint={'center_x': 0.75, 'center_y': .9})
         # Set button action
         button.bind(on_press=self.on_press_button)
-
-        self.textbox = TextInput(size_hint=(.3, .1), pos_hint={'center_x': 0.5, 'center_y': .9})
-        self.userx_input = TextInput(size_hint=(.3, .1), pos_hint={'center_x': 0.2, 'center_y': .9})
-        self.usery_input = TextInput(size_hint=(.3, .1), pos_hint={'center_x': 0.6, 'center_y': .9})
-        self.descriptionlabel = Label(text='Enter Location:', size_hint=(.1, .1),
-                                      pos_hint={'center_x': 0.2, 'center_y': .9})
-        self.temperaturelabel = Label(text='Temperature:', size_hint=(.2, .2),
-                                      pos_hint={'center_x': 0.5, 'center_y': .5})
-        self.timelabel = Label(text='Time', size_hint=(.2, .2), pos_hint={'center_x': 0.5, 'center_y': .7})
-        self.skylabel = Label(text='Condition:', size_hint=(.2, .2), pos_hint={'center_x': 0.5, 'center_y': .6})
 
         # Add widgets to the floating layout
         layout.add_widget(self.descriptionlabel)
@@ -60,11 +62,11 @@ class WeatherLayout(App):
         # based on the current database this will use an x&y input? (or make to have option of name or xy input)
 
         # select the station to be used (currently returning station name)
-        # station = Database_class.Datbase_class.determine_best_location(user_x=user_x, user_y=user_y)
-        station = database.Datbase_class.determine_best_location(user_x=user_x, user_y=user_y)
+        # station = Database_class.Database_class.determine_best_location(user_x=user_x, user_y=user_y)
+        station = database.Database_class.determine_best_location(user_x=user_x, user_y=user_y)
 
         # get data for this station (no idea if this works(need to review how accessing class data works)
-        Database_class.Datbase_class.get_all_current_data()
+        Database_class.Database_class.get_all_current_data()
 
         # maybe have the database be updated and then we access it
 
