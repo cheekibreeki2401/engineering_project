@@ -7,7 +7,7 @@ weather_station_locations_x = {27.407, 19.259, 16.92}
 weather_station_locations_y = {153.02, 146.81, 145.77}
 
 
-class Datbase_class:
+class Database_class:
     def __init__(self, database_name, database_location):
         self.database_name = database_name
         self.database_location = database_location
