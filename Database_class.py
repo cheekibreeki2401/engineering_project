@@ -2,9 +2,9 @@ import random
 
 from weather_station import Weather_station
 
-weather_station_names = {"Brisbane", "Townsville", "Cairns"}
-weather_station_locations_x = {27.407, 19.259, 16.92}
-weather_station_locations_y = {153.02, 146.81, 145.77}
+weather_station_names = ["Brisbane", "Townsville", "Cairns"]
+weather_station_locations_x = [27.407, 19.259, 16.92]
+weather_station_locations_y = [153.02, 146.81, 145.77]
 
 
 class Database_class:
@@ -49,8 +49,8 @@ class Database_class:
         best_distance = 10000000
         station_name = ""
         for i in range(len(weather_station_names)):
-            distance_to_station = (abs(user_y - weather_station_locations_y[i]))/(abs(user_x -
-                                                                                      weather_station_locations_x[i]))
+            distance_to_station = (abs(user_y - weather_station_locations_y[i])) / (abs(user_x -
+                                                                                        weather_station_locations_x[i]))
             if distance_to_station < best_distance:
                 best_distance = distance_to_station
                 station_name = weather_station_names[i]
@@ -73,4 +73,3 @@ class Database_class:
             if data[0] == self.closest_station:
                 data_set.append(data)
         return data_set
-
