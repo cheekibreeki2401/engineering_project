@@ -7,10 +7,10 @@ weather_station_locations_x = [27.407, 19.259, 16.92]
 weather_station_locations_y = [153.02, 146.81, 145.77]
 
 
-class Database_class:
-    def __init__(self, database_name, database_location):
-        self.database_name = database_name
-        self.database_location = database_location
+class DatabaseClass:
+    def __init__(self):#, database_name, database_location
+        #self.database_name = database_name
+        #self.database_location = database_location
         self.latest_station_data = []
         self.previous_data = []
         self.closest_station = ""
@@ -64,12 +64,12 @@ class Database_class:
 
     def get_all_relevant_current_data(self):
         for data in self.latest_station_data:
-            if data[0] == self.closest_station:
+            if data.get_weather_station_name() == self.closest_station:
                 return data
 
     def get_all_relevant_archived_data(self):
         data_set = []
         for data in self.previous_data:
-            if data[0] == self.closest_station:
+            if data.get_weather_station_name() == self.closest_station:
                 data_set.append(data)
         return data_set
