@@ -14,8 +14,9 @@ import Database_class
 
 database = Database_class
 
+
 class WeatherLayout(App):
-    #create an instance of the database class for use here
+    # create an instance of the database class for use here
 
     def build(self):
         # Create window
@@ -32,8 +33,10 @@ class WeatherLayout(App):
         self.textbox = TextInput(size_hint=(.3, .1), pos_hint={'center_x': 0.5, 'center_y': .9})
         self.userx_input = TextInput(size_hint=(.3, .1), pos_hint={'center_x': 0.2, 'center_y': .9})
         self.usery_input = TextInput(size_hint=(.3, .1), pos_hint={'center_x': 0.6, 'center_y': .9})
-        self.descriptionlabel = Label(text='Enter Location:', size_hint=(.1, .1), pos_hint={'center_x': 0.2, 'center_y': .9})
-        self.temperaturelabel = Label(text='Temperature:', size_hint=(.2, .2), pos_hint={'center_x': 0.5, 'center_y': .5})
+        self.descriptionlabel = Label(text='Enter Location:', size_hint=(.1, .1),
+                                      pos_hint={'center_x': 0.2, 'center_y': .9})
+        self.temperaturelabel = Label(text='Temperature:', size_hint=(.2, .2),
+                                      pos_hint={'center_x': 0.5, 'center_y': .5})
         self.timelabel = Label(text='Time', size_hint=(.2, .2), pos_hint={'center_x': 0.5, 'center_y': .7})
         self.skylabel = Label(text='Condition:', size_hint=(.2, .2), pos_hint={'center_x': 0.5, 'center_y': .6})
 
@@ -47,24 +50,23 @@ class WeatherLayout(App):
 
         return layout
 
-
     def on_press_button(self, instance):
         # get location name from
-        #city = self.textbox.text
+        # city = self.textbox.text
         user_x = self.userx_input.text
         user_y = self.usery_input.text
 
-# insert utilising database here (include error checking etc)
+        # insert utilising database here (include error checking etc)
         # based on the current database this will use an x&y input? (or make to have option of name or xy input)
 
         # select the station to be used (currently returning station name)
-        #station = Database_class.Datbase_class.determine_best_location(user_x=user_x, user_y=user_y)
+        # station = Database_class.Datbase_class.determine_best_location(user_x=user_x, user_y=user_y)
         station = database.Datbase_class.determine_best_location(user_x=user_x, user_y=user_y)
 
         # get data for this station (no idea if this works(need to review how accessing class data works)
         Database_class.Datbase_class.get_all_current_data()
 
-# maybe have the database be updated and then we access it
+        # maybe have the database be updated and then we access it
 
         # display the data
         self.temperaturelabel.text = 'Temperature:' + temp
