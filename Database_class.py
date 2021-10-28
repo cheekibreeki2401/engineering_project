@@ -45,9 +45,10 @@ class DatabaseClass:
         self.latest_station_data = []
         self.random_data()
 
-    def determine_best_location(self, user_x, user_y):
+    def determine_best_location_xy(self, user_x, user_y):
         best_distance = 10000000
         station_name = ""
+
         for i in range(len(weather_station_names)):
             distance_to_station = (abs(user_y - weather_station_locations_y[i])) / (abs(user_x -
                                                                                         weather_station_locations_x[i]))
@@ -55,6 +56,17 @@ class DatabaseClass:
                 best_distance = distance_to_station
                 station_name = weather_station_names[i]
         self.closest_station = station_name
+
+    def determine_best_location_name(self, user_location):
+        station_name = ""
+        location_match = False
+        for i in range(len(weather_station_names)):
+            if user_location == weather_station_names[i]:
+                station_name = weather_station_names[i]
+                self.closest_station = station_name
+                location_match = True
+        if not location_match:
+            return True
 
     def get_all_current_data(self):
         return self.latest_station_data

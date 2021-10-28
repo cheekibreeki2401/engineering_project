@@ -32,6 +32,8 @@ class WeatherLayout(App):
         self.userx_input = TextInput(size_hint=(.3, .1), pos_hint={'center_x': 0.25, 'center_y': .9})
         self.locationlabel = Label(text='Location Name:', size_hint=(.2, .2), pos_hint={'center_x':0.2, 'center_y': .8})
         self.name_input = TextInput(size_hint=(.3, .1), pos_hint={'center_x': 0.5, 'center_y': .8})
+        # Create instance of database class
+        self.database1 = Database_class.DatabaseClass()
 
     def build(self):
         # Create window
@@ -62,33 +64,64 @@ class WeatherLayout(App):
         return layout
 
     def on_press_button(self, instance):
-        # get location name from
-        # city = self.textbox.text
-        #TODO error checking. Make only valid input. Change to location entry
-        userx = int(self.userx_input.text)
-        usery = int(self.usery_input.text)
+        # get location from user
+            # if all boxes contain entries
+            if (self.userx_input.text != '' or self.usery_input.text != '') and self.name_input.text != '':
+                self.descriptionlabel.text = 'Please enter an x&y coordinate or Location name'
+                self.userx_input.text = ''
+                self.usery_input.text = ''
+                self.name_input.text = ''
+            # location name entry
+            elif self.name_input.text !='':
+                userlocation = self.name_input.text
+                station = self.database1.determine_best_location_name(user_location=userlocation)
+                if not station:
+                    self.load_data()
+                else:
+                    self.descriptionlabel.text = 'Please enter a valid name'
+                    self.userx_input.text = ''
+                    self.usery_input.text = ''
+                    self.name_input.text = ''
+            # xy inputs
+            elif self.userx_input.text != '' and self.usery_input.text != '':
+                try:
+                    userx = int(self.userx_input.text)
+                    usery = int(self.usery_input.text)
+                    self.database1.determine_best_location_xy(user_x=userx, user_y=usery)
+                    self.load_data()
+                except ValueError:
+                    self.descriptionlabel.text = 'Please enter a valid input'
+                    self.userx_input.text = ''
+                    self.usery_input.text = ''
+                    self.name_input.text = ''
+            # any other entry
+            else:
+                self.descriptionlabel.text = 'Please enter a valid input'
+                self.userx_input.text = ''
+                self.usery_input.text = ''
+                self.name_input.text = ''
 
-        # insert utilising database here (include error checking etc)
-        # based on the current database this will use an x&y input? (or make to have option of name or xy input)
 
+    def load_data(self):
+            # insert utilising database here (include error checking etc)
+            # based on the current database this will use an x&y input? (or make to have option of name or xy input)
 
-        # Create instance of database class
-        database1 = Database_class.DatabaseClass()
-        # select the station to be used (currently returning station name)
-        station = database1.determine_best_location(user_x=userx, user_y=usery)
+             # select the station to be used (currently returning station name)
 
-        # get data for this station (no idea if this works(need to review how accessing class data works)
-        database1.random_data()  #randomly generating weather data
-        records = database1.get_all_relevant_current_data() #get weather data for nearest location
+            # Get data for this station (no idea if this works(need to review how accessing class data works)
+            self.database1.random_data()  # randomly generating weather data
+            records = self.database1.get_all_relevant_current_data()  # get weather data for nearest location
 
-        # display the data
-        #elf.temperaturelabel.text = 'Temperature:' + temp
-        #self.timelabel.text = 'Time:' + time
+            # Display the data
+            # self.temperaturelabel.text = 'Temperature:' + temp
+            # self.timelabel.text = 'Time:' + time
 
-        self.skylabel.text = 'Condition:' + str(records.get_sunlight_exposure())
-        self.rainlabel.text = 'Rainfall:' + str(records.get_rainfall())
-        self.windlabel.text = 'Wind Speed:' + str(records.get_wind_speeds())
-        self.directionlabel.text = 'Wind Direction:' + str(records.get_wind_direction())
+            self.skylabel.text = 'Condition:' + str(records.get_sunlight_exposure())
+            self.rainlabel.text = 'Rainfall:' + str(records.get_rainfall())
+            self.windlabel.text = 'Wind Speed:' + str(records.get_wind_speeds())
+            self.directionlabel.text = 'Wind Direction:' + str(records.get_wind_direction())
+        # except :
+        #     self.descriptionlabel.text = 'Error'
 
 
 if __name__ == '__main__':
