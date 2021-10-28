@@ -14,10 +14,11 @@ from kivy.core.window import Window
 
 
 class WeatherLayout(App):
-    # create an instance of the database class for use here
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
+
+        # Create widgets
         self.skylabel = Label(text='Condition:', size_hint=(.2, .2), pos_hint={'center_x': 0.5, 'center_y': .6})
         self.timelabel = Label(text='Time', size_hint=(.2, .2), pos_hint={'center_x': 0.5, 'center_y': .7})
         self.rainlabel = Label(text='Rain', size_hint=(.2, .2), pos_hint={'center_x': 0.5, 'center_y': .4})
@@ -26,10 +27,11 @@ class WeatherLayout(App):
         self.temperaturelabel = Label(text='Temperature:', size_hint=(.2, .2),
                                       pos_hint={'center_x': 0.5, 'center_y': .5})
         self.descriptionlabel = Label(text='Enter Location:', size_hint=(.1, .1),
-                                      pos_hint={'center_x': 0.2, 'center_y': .9})
+                                      pos_hint={'center_x': 0.2, 'center_y': .98})
         self.usery_input = TextInput(size_hint=(.3, .1), pos_hint={'center_x': 0.6, 'center_y': .9})
-        self.userx_input = TextInput(size_hint=(.3, .1), pos_hint={'center_x': 0.2, 'center_y': .9})
-        self.textbox = TextInput(size_hint=(.3, .1), pos_hint={'center_x': 0.5, 'center_y': .9})
+        self.userx_input = TextInput(size_hint=(.3, .1), pos_hint={'center_x': 0.25, 'center_y': .9})
+        self.locationlabel = Label(text='Location Name:', size_hint=(.2, .2), pos_hint={'center_x':0.2, 'center_y': .8})
+        self.name_input = TextInput(size_hint=(.3, .1), pos_hint={'center_x': 0.5, 'center_y': .8})
 
     def build(self):
         # Create window
@@ -39,13 +41,14 @@ class WeatherLayout(App):
         # Add widgets and specify size/position
         button = Button(text='Search',
                         size_hint=(.15, .1),
-                        pos_hint={'center_x': 0.75, 'center_y': .9})
+                        pos_hint={'center_x': 0.85, 'center_y': .9})
         # Set button action
         button.bind(on_press=self.on_press_button)
 
         # Add widgets to the floating layout
         layout.add_widget(self.descriptionlabel)
-        #layout.add_widget(self.textbox)
+        layout.add_widget(self.locationlabel)
+        layout.add_widget(self.name_input)
         layout.add_widget(self.userx_input)
         layout.add_widget(self.usery_input)
         layout.add_widget(button)
@@ -68,8 +71,10 @@ class WeatherLayout(App):
         # insert utilising database here (include error checking etc)
         # based on the current database this will use an x&y input? (or make to have option of name or xy input)
 
-        # select the station to be used (currently returning station name)
+
+        # Create instance of database class
         database1 = Database_class.DatabaseClass()
+        # select the station to be used (currently returning station name)
         station = database1.determine_best_location(user_x=userx, user_y=usery)
 
         # get data for this station (no idea if this works(need to review how accessing class data works)
