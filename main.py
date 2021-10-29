@@ -2,7 +2,7 @@ import kivy
 import requests
 import Database
 
-from bs4 import BeautifulSoup
+# from bs4 import BeautifulSoup
 from kivy.app import App
 from kivy.uix.textinput import TextInput
 from kivy.uix.button import Button
@@ -31,9 +31,9 @@ class WeatherLayout(App):
         self.TemperatureLabel = Label(text='Temperature:', size_hint=(.2, .2),
                                       pos_hint={'center_x': 0.5, 'center_y': .5})
         self.DescriptionLabel = Label(text='Enter Location:', size_hint=(.1, .1),
-                                      pos_hint={'center_x': 0.2, 'center_y': .98})
-        self.UserYInput = TextInput(size_hint=(.3, .1), pos_hint={'center_x': 0.6, 'center_y': .9})
-        self.UserXInput = TextInput(size_hint=(.3, .1), pos_hint={'center_x': 0.25, 'center_y': .9})
+                                      pos_hint={'center_x': 0.5, 'center_y': .98})
+        # self.UserYInput = TextInput(size_hint=(.3, .1), pos_hint={'center_x': 0.6, 'center_y': .9})
+        # self.UserXInput = TextInput(size_hint=(.3, .1), pos_hint={'center_x': 0.25, 'center_y': .9})
         self.LocationLabel = Label(text='Location Name:', size_hint=(.2, .2),
                                    pos_hint={'center_x': 0.2, 'center_y': .8})
         self.NameInput = TextInput(size_hint=(.3, .1), pos_hint={'center_x': 0.5, 'center_y': .8})
@@ -56,8 +56,8 @@ class WeatherLayout(App):
         layout.add_widget(self.DescriptionLabel)
         layout.add_widget(self.LocationLabel)
         layout.add_widget(self.NameInput)
-        layout.add_widget(self.UserXInput)
-        layout.add_widget(self.UserYInput)
+        # layout.add_widget(self.UserXInput)
+        # layout.add_widget(self.UserYInput)
         layout.add_widget(button)
         layout.add_widget(self.TemperatureLabel)
         layout.add_widget(self.SkyLabel)
@@ -71,40 +71,42 @@ class WeatherLayout(App):
     def on_press_button(self, instance):
         # get location from user
         # if all boxes contain entries
-        if (self.UserXInput.text != '' or self.UserYInput.text != '') and self.NameInput.text != '':
-            self.DescriptionLabel.text = 'Please enter an x&y coordinate or Location name'
-            self.UserXInput.text = ''
-            self.UserYInput.text = ''
-            self.NameInput.text = ''
+        # if (self.UserXInput.text != '' or self.UserYInput.text != '') and self.NameInput.text != '':
+
+        # self.DescriptionLabel.text = 'Please enter an x&y coordinate or Location name'
+        # self.UserXInput.text = ''
+        # self.UserYInput.text = ''
+        # self.NameInput.text = ''
+
         # location name entry
-        elif self.NameInput.text != '':
+        if self.NameInput.text != '':
             user_location = self.NameInput.text
             station = self.database1.determine_best_location_name(user_location=user_location)
             if not station:
                 self.load_data()
             else:
                 self.DescriptionLabel.text = 'Please enter a valid name'
-                self.UserXInput.text = ''
-                self.UserYInput.text = ''
+                # self.UserXInput.text = ''
+                # self.UserYInput.text = ''
                 self.NameInput.text = ''
         # xy inputs
-        elif self.UserXInput.text != '' and self.UserYInput.text != '':
-            try:
-                user_x = float(self.UserXInput.text)
-                user_y = float(self.UserYInput.text)
-                self.database1.determine_best_location_xy(user_x=user_x, user_y=user_y)
-                self.load_data()
-            except ValueError:
-                self.DescriptionLabel.text = 'Please enter a valid input'
-                self.UserXInput.text = ''
-                self.UserYInput.text = ''
-                self.NameInput.text = ''
+        # elif self.UserXInput.text != '' and self.UserYInput.text != '':
+            # try:
+                # user_x = float(self.UserXInput.text)
+                # user_y = float(self.UserYInput.text)
+                # self.database1.determine_best_location_xy(user_x=user_x, user_y=user_y)
+                # self.load_data()
+            # except ValueError:
+                # self.DescriptionLabel.text = 'Please enter a valid input'
+                # self.UserXInput.text = ''
+                # self.UserYInput.text = ''
+                # self.NameInput.text = ''
         # any other entry
-        else:
-            self.DescriptionLabel.text = 'Please enter a valid input'
-            self.UserXInput.text = ''
-            self.UserYInput.text = ''
-            self.NameInput.text = ''
+        # else:
+        #     self.DescriptionLabel.text = 'Please enter a valid input'
+        #     self.UserXInput.text = ''
+        #     self.UserYInput.text = ''
+        #     self.NameInput.text = ''
 
     def load_data(self):
         # insert utilising database here (include error checking etc)
