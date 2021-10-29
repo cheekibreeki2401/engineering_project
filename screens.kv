@@ -1,0 +1,46 @@
+WindowManager:
+    WelcomeWindow:
+    MainWindow:
+
+<WelcomeWindow>:
+    name: "welcome"
+
+    FloatLayout:
+
+        Label:
+            text: "Enter Location:"
+            pos_hint: {'center_x': 0.2, 'center_y': .98}
+            size_hint: .1,.1
+        Label:
+            text: "Location Name:"
+            pos_hint: {'center_x': 0.2, 'center_y': .8}
+            size_hint: .2,.2
+        TextInput:
+            id:usery_input
+            pos_hint: {'center_x': 0.6, 'center_y': .9}
+            size_hint: .3,.05
+        TextInput:
+            id:userx_input
+            pos_hint: {'center_x': 0.25, 'center_y': .9}
+            size_hint: .3,.05
+        TextInput:
+            id:name_input
+            pos_hint: {'center_x': 0.5, 'center_y': .8}
+            size_hint: .3,.05
+
+        Button:
+            text: "Search"
+            on_press:
+                root.on_press_button()
+                app.root.current = "main" if root.valid_station
+                root.manager.transition.direction = "left"
+
+
+<MainWindow>:
+    name: "main"
+
+    Button:
+        text: "Go Back"
+        on_release:
+            app.root.current = "main"
+            root.manager.transition.direction = "right"

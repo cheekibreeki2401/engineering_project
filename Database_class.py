@@ -8,9 +8,7 @@ weather_station_locations_y = [153.02, 146.81, 145.77]
 
 
 class DatabaseClass:
-    def __init__(self):#, database_name, database_location
-        #self.database_name = database_name
-        #self.database_location = database_location
+    def __init__(self):
         self.latest_station_data = []
         self.previous_data = []
         self.closest_station = ""
