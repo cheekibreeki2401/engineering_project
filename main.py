@@ -57,14 +57,14 @@ class WelcomeWindow(Screen):
         # get location from user
         # if all boxes contain entries
         valid_station = False
-        if (self.ids.UserXInput.text != '' or self.ids.UserYInput.text != '') and self.ids.NameInput.text != '':
-            self.ids.DescriptionLabel.text = 'Please enter an x&y coordinate or Location name'
-            self.ids.UserXInput.text = ''
-            self.ids.UserYInput.text = ''
-            self.ids.NameInput.text = ''
+        # if (self.ids.UserXInput.text != '' or self.ids.UserYInput.text != '') and self.ids.NameInput.text != '':
+        #     self.ids.DescriptionLabel.text = 'Please enter an x&y coordinate or Location name'
+        #     self.ids.UserXInput.text = ''
+        #     self.ids.UserYInput.text = ''
+        #     self.ids.NameInput.text = ''
 
         # location name entry
-        elif self.ids.NameInput.text !='':
+        if self.ids.NameInput.text !='':
             user_location = self.ids.NameInput.text
             station = database1.determine_best_location_name(user_location=user_location)
             if not station:
@@ -73,31 +73,31 @@ class WelcomeWindow(Screen):
                 valid_station = True
             else:
                 self.ids.DescriptionLabel.text = 'Please enter a valid name'
-                self.ids.UserXInput.text = ''
-                self.ids.UserYInput.text = ''
+                # self.ids.UserXInput.text = ''
+                # self.ids.UserYInput.text = ''
                 self.ids.NameInput.text = ''
 
         # xy inputs
-        elif self.ids.UserXInput.text != '' and self.ids.UserYInput.text != '':
-            try:
-                user_x = float(self.ids.UserXInput.text)
-                user_y = float(self.ids.UserYInput.text)
-                database1.determine_best_location_xy(user_x=user_x, user_y=user_y)
-                valid_station = True
-                # self.ids.load_data()
-                self.manager.current = 'main'
-            except ValueError:  # if the entry is not a valid number
-                self.ids.DescriptionLabel.text = 'Please enter a valid input'
-                self.ids.UserXInput.text = ''
-                self.ids.UserYInput.text = ''
-                self.ids.NameInput.text = ''
-
-        # any other entry
-        else:
-            self.ids.DescriptionLabel.text = 'Please enter a valid input'
-            self.ids.UserXInput.text = ''
-            self.ids.UserYInput.text = ''
-            self.ids.NameInput.text = ''
+        # elif self.ids.UserXInput.text != '' and self.ids.UserYInput.text != '':
+        #     try:
+        #         user_x = float(self.ids.UserXInput.text)
+        #         user_y = float(self.ids.UserYInput.text)
+        #         database1.determine_best_location_xy(user_x=user_x, user_y=user_y)
+        #         valid_station = True
+        #         # self.ids.load_data()
+        #         self.manager.current = 'main'
+        #     except ValueError:  # if the entry is not a valid number
+        #         self.ids.DescriptionLabel.text = 'Please enter a valid input'
+        #         self.ids.UserXInput.text = ''
+        #         self.ids.UserYInput.text = ''
+        #         self.ids.NameInput.text = ''
+        #
+        # # any other entry
+        # else:
+        #     self.ids.DescriptionLabel.text = 'Please enter a valid input'
+        #     self.ids.UserXInput.text = ''
+        #     self.ids.UserYInput.text = ''
+        #     self.ids.NameInput.text = ''
 
 
 class MainWindow(Screen):
