@@ -17,7 +17,7 @@ class DatabaseClass:
         for i in range(len(weather_station_names)):
             sunlight_data = round(random.uniform(0, 100))
             rain_fall = random.randint(0, 300)
-            wind_speed = random.randint(0, 600)
+            wind_speed = random.randint(0, 150)
             wind_direction_determine = random.randint(0, 7)
             switcher = {
                 0: "North",
@@ -29,10 +29,11 @@ class DatabaseClass:
                 6: "West",
                 7: "North-West"
             }
+            new_temp = round(random.uniform(15, 40))
             wind_direction = switcher.get(wind_direction_determine, "No wind")
             new_weather_station = Weather_station(weather_station_names[i], weather_station_locations_x[i],
                                                   weather_station_locations_x, sunlight_data, rain_fall, wind_speed,
-                                                  wind_direction)
+                                                  wind_direction, new_temp)
             self.latest_station_data.append(new_weather_station)
 
     def get_new_data(self):

@@ -1,6 +1,6 @@
 class Weather_station:
     def __init__(self, weather_station_name, weather_station_location_x, weather_station_location_y, sunlight_exposure,
-                 rain_fall, wind_speeds, wind_direction):
+                 rain_fall, wind_speeds, wind_direction, temperature):
         self.weather_station_name = weather_station_name
         self.weather_station_location_x = weather_station_location_x
         self.weather_station_location_y = weather_station_location_y
@@ -8,6 +8,7 @@ class Weather_station:
         self.rain_fall = rain_fall
         self.wind_speeds = wind_speeds
         self.wind_direction = wind_direction
+        self.temperature = temperature
 
     def get_weather_station_name(self):
         return self.weather_station_name
@@ -29,3 +30,6 @@ class Weather_station:
 
     def get_wind_direction(self):
         return self.wind_direction
+
+    def get_temperature(self):
+        return self.temperature

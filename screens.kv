@@ -15,6 +15,11 @@ WindowManager:
             text: "Location Name:"
             pos_hint: {'center_x': 0.2, 'center_y': .8}
             size_hint: .2,.2
+        Label:
+            id:descriptionlabel
+            text: ""
+            pos_hint: {'center_x': 0.2, 'center_y': .6}
+            size_hint: .2,.2
         TextInput:
             id:usery_input
             pos_hint: {'center_x': 0.6, 'center_y': .9}
@@ -30,17 +35,52 @@ WindowManager:
 
         Button:
             text: "Search"
-            on_press:
+            size_hint: 0.15,0.1
+            pos_hint: {'center_x': 0.85, 'center_y': .9}
+            on_release:
                 root.on_press_button()
-                app.root.current = "main" if root.valid_station
-                root.manager.transition.direction = "left"
 
 
 <MainWindow>:
     name: "main"
 
-    Button:
-        text: "Go Back"
-        on_release:
-            app.root.current = "main"
-            root.manager.transition.direction = "right"
+    FloatLayout:
+
+        Label:
+            id:timelabel
+            text: "Time:"
+            pos_hint: {'center_x': 0.5, 'center_y': .7}
+            size_hint: .2,.2
+        Label:
+            id:rainlabel
+            text: "Rain:"
+            pos_hint: {'center_x': 0.5, 'center_y': .6}
+            size_hint: .2,.2
+        Label:
+            id:windlabel
+            text: "Wind:"
+            pos_hint: {'center_x': 0.5, 'center_y': .5}
+            size_hint: .2,.2
+        Label:
+            id:directionlabel
+            text: "Wind Direction:"
+            pos_hint: {'center_x': 0.5, 'center_y': .3}
+            size_hint: .2,.2
+        Label:
+            id:temperaturelabel
+            text: "Temperature:"
+            pos_hint: {'center_x': 0.5, 'center_y': .2}
+            size_hint: .2,.2
+        Label:
+            id:skylabel
+            text: "Condition:"
+            pos_hint: {'center_x': 0.5, 'center_y': .1}
+            size_hint: .2,.2
+
+        Button:
+            text: "Go Back"
+            size_hint: 0.15,0.1
+            pos_hint: {'center_x': 0.1, 'center_y': .95}
+            on_release:
+                app.root.current = "welcome"
+                root.manager.transition.direction = "right"
