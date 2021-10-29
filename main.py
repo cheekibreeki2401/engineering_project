@@ -1,6 +1,6 @@
 import kivy
 import requests
-import Database_class
+import Database
 
 from bs4 import BeautifulSoup
 from kivy.app import App
@@ -20,7 +20,7 @@ from datetime import datetime
 class WelcomeWindow(Screen):
     # Create instance of database class
     global database1
-    database1 = Database_class.DatabaseClass()
+    database1 = Database.DatabaseClass()
     #global valid_station
     #valid_station = False
     # def __init__(self, **kwargs):
@@ -30,13 +30,13 @@ class WelcomeWindow(Screen):
     #     # Create window
     #     Window.size = (400, 600)
     #
-    #     self.ids.descriptionlabel = Label(text='Enter Location:', size_hint=(.1, .1),
+    #     self.ids.DescriptionLabel = Label(text='Enter Location:', size_hint=(.1, .1),
     #                                   pos_hint={'center_x': 0.2, 'center_y': .98})
-    #     self.ids.usery_input = TextInput(size_hint=(.3, .1), pos_hint={'center_x': 0.6, 'center_y': .9})
-    #     self.ids.userx_input = TextInput(size_hint=(.3, .1), pos_hint={'center_x': 0.25, 'center_y': .9})
+    #     self.ids.UserYInput = TextInput(size_hint=(.3, .1), pos_hint={'center_x': 0.6, 'center_y': .9})
+    #     self.ids.UserXInput = TextInput(size_hint=(.3, .1), pos_hint={'center_x': 0.25, 'center_y': .9})
     #     self.ids.locationlabel = Label(text='Location Name:', size_hint=(.2, .2),
     #                                pos_hint={'center_x': 0.2, 'center_y': .8})
-    #     self.ids.name_input = TextInput(size_hint=(.3, .1), pos_hint={'center_x': 0.5, 'center_y': .8})
+    #     self.ids.NameInput = TextInput(size_hint=(.3, .1), pos_hint={'center_x': 0.5, 'center_y': .8})
     #
     #     # Add widgets and specify size/position
     #     button = Button(text='Search',
@@ -45,11 +45,11 @@ class WelcomeWindow(Screen):
     #     # Set button action
     #     button.bind(on_press=self.ids.on_press_button)
     #
-    #     self.ids.add_widget(self.ids.descriptionlabel)
+    #     self.ids.add_widget(self.ids.DescriptionLabel)
     #     self.ids.add_widget(self.ids.locationlabel)
-    #     self.ids.add_widget(self.ids.name_input)
-    #     self.ids.add_widget(self.ids.userx_input)
-    #     self.ids.add_widget(self.ids.usery_input)
+    #     self.ids.add_widget(self.ids.NameInput)
+    #     self.ids.add_widget(self.ids.UserXInput)
+    #     self.ids.add_widget(self.ids.UserYInput)
     #     self.ids.add_widget(button)
 
 
@@ -57,47 +57,47 @@ class WelcomeWindow(Screen):
         # get location from user
         # if all boxes contain entries
         valid_station = False
-        if (self.ids.userx_input.text != '' or self.ids.usery_input.text != '') and self.ids.name_input.text != '':
-            self.ids.descriptionlabel.text = 'Please enter an x&y coordinate or Location name'
-            self.ids.userx_input.text = ''
-            self.ids.usery_input.text = ''
-            self.ids.name_input.text = ''
+        if (self.ids.UserXInput.text != '' or self.ids.UserYInput.text != '') and self.ids.NameInput.text != '':
+            self.ids.DescriptionLabel.text = 'Please enter an x&y coordinate or Location name'
+            self.ids.UserXInput.text = ''
+            self.ids.UserYInput.text = ''
+            self.ids.NameInput.text = ''
 
         # location name entry
-        elif self.ids.name_input.text !='':
-            userlocation = self.ids.name_input.text
-            station = database1.determine_best_location_name(user_location=userlocation)
+        elif self.ids.NameInput.text !='':
+            user_location = self.ids.NameInput.text
+            station = database1.determine_best_location_name(user_location=user_location)
             if not station:
                 # self.ids.load_data()
                 self.manager.current = 'main'
                 valid_station = True
             else:
-                self.ids.descriptionlabel.text = 'Please enter a valid name'
-                self.ids.userx_input.text = ''
-                self.ids.usery_input.text = ''
-                self.ids.name_input.text = ''
+                self.ids.DescriptionLabel.text = 'Please enter a valid name'
+                self.ids.UserXInput.text = ''
+                self.ids.UserYInput.text = ''
+                self.ids.NameInput.text = ''
 
         # xy inputs
-        elif self.ids.userx_input.text != '' and self.ids.usery_input.text != '':
+        elif self.ids.UserXInput.text != '' and self.ids.UserYInput.text != '':
             try:
-                userx = float(self.ids.userx_input.text)
-                usery = float(self.ids.usery_input.text)
-                database1.determine_best_location_xy(user_x=userx, user_y=usery)
+                user_x = float(self.ids.UserXInput.text)
+                user_y = float(self.ids.UserYInput.text)
+                database1.determine_best_location_xy(user_x=user_x, user_y=user_y)
                 valid_station = True
                 # self.ids.load_data()
                 self.manager.current = 'main'
             except ValueError:  # if the entry is not a valid number
-                self.ids.descriptionlabel.text = 'Please enter a valid input'
-                self.ids.userx_input.text = ''
-                self.ids.usery_input.text = ''
-                self.ids.name_input.text = ''
+                self.ids.DescriptionLabel.text = 'Please enter a valid input'
+                self.ids.UserXInput.text = ''
+                self.ids.UserYInput.text = ''
+                self.ids.NameInput.text = ''
 
         # any other entry
         else:
-            self.ids.descriptionlabel.text = 'Please enter a valid input'
-            self.ids.userx_input.text = ''
-            self.ids.usery_input.text = ''
-            self.ids.name_input.text = ''
+            self.ids.DescriptionLabel.text = 'Please enter a valid input'
+            self.ids.UserXInput.text = ''
+            self.ids.UserYInput.text = ''
+            self.ids.NameInput.text = ''
 
 
 class MainWindow(Screen):
@@ -109,29 +109,29 @@ class MainWindow(Screen):
     #     super().__init__(**kwargs)
     #
     #     # Create instance of database class
-    #     # self.ids.database1 = Database_class.DatabaseClass()
+    #     # self.ids.database1 = Database.DatabaseClass()
     #
     #     # Create window
     #     Window.size = (400, 600)
     #     #layout = FloatLayout(size=(350, 250))
     #
     #     # Create widgets
-    #     self.ids.skylabel = Label(text='Condition:', size_hint=(.2, .2), pos_hint={'center_x': 0.5, 'center_y': .6})
-    #     self.ids.timelabel = Label(text='Time', size_hint=(.2, .2), pos_hint={'center_x': 0.5, 'center_y': .7})
-    #     self.ids.rainlabel = Label(text='Rain', size_hint=(.2, .2), pos_hint={'center_x': 0.5, 'center_y': .4})
-    #     self.ids.windlabel = Label(text='Wind', size_hint=(.2, .2), pos_hint={'center_x': 0.2, 'center_y': .3})
+    #     self.ids.SkyLabel = Label(text='Condition:', size_hint=(.2, .2), pos_hint={'center_x': 0.5, 'center_y': .6})
+    #     self.ids.TimeLabel = Label(text='Time', size_hint=(.2, .2), pos_hint={'center_x': 0.5, 'center_y': .7})
+    #     self.ids.RainLabel = Label(text='Rain', size_hint=(.2, .2), pos_hint={'center_x': 0.5, 'center_y': .4})
+    #     self.ids.WindLabel = Label(text='Wind', size_hint=(.2, .2), pos_hint={'center_x': 0.2, 'center_y': .3})
     #     self.ids.directionlabel = Label(text='Wind Direction', size_hint=(.2, .2), pos_hint={'center_x': 0.65, 'center_y': .3})
-    #     self.ids.temperaturelabel = Label(text='Temperature:', size_hint=(.2, .2),
+    #     self.ids.TemperatureLabel = Label(text='Temperature:', size_hint=(.2, .2),
     #                                   pos_hint={'center_x': 0.5, 'center_y': .5})
-    #     self.ids.descriptionlabel = Label(text='Enter Location:', size_hint=(.1, .1),
+    #     self.ids.DescriptionLabel = Label(text='Enter Location:', size_hint=(.1, .1),
     #                                   pos_hint={'center_x': 0.2, 'center_y': .98})
-    #     self.ids.usery_input = TextInput(size_hint=(.3, .1), pos_hint={'center_x': 0.6, 'center_y': .9})
-    #     self.ids.userx_input = TextInput(size_hint=(.3, .1), pos_hint={'center_x': 0.25, 'center_y': .9})
+    #     self.ids.UserYInput = TextInput(size_hint=(.3, .1), pos_hint={'center_x': 0.6, 'center_y': .9})
+    #     self.ids.UserXInput = TextInput(size_hint=(.3, .1), pos_hint={'center_x': 0.25, 'center_y': .9})
     #     self.ids.locationlabel = Label(text='Location Name:', size_hint=(.2, .2), pos_hint={'center_x':0.2, 'center_y': .8})
-    #     self.ids.name_input = TextInput(size_hint=(.3, .1), pos_hint={'center_x': 0.5, 'center_y': .8})
+    #     self.ids.NameInput = TextInput(size_hint=(.3, .1), pos_hint={'center_x': 0.5, 'center_y': .8})
 
     # Create instance of database class
-    # self.ids.database1 = Database_class.DatabaseClass()
+    # self.ids.database1 = Database.DatabaseClass()
 
     # Add widgets and specify size/position
     # button = Button(text='Search',
@@ -141,17 +141,17 @@ class MainWindow(Screen):
     # button.bind(on_press=self.ids.on_press_button)
 
     # # Add widgets to the floating layout
-    # self.ids.add_widget(self.ids.descriptionlabel)
+    # self.ids.add_widget(self.ids.DescriptionLabel)
     # self.ids.add_widget(self.ids.locationlabel)
-    # self.ids.add_widget(self.ids.name_input)
-    # self.ids.add_widget(self.ids.userx_input)
-    # self.ids.add_widget(self.ids.usery_input)
+    # self.ids.add_widget(self.ids.NameInput)
+    # self.ids.add_widget(self.ids.UserXInput)
+    # self.ids.add_widget(self.ids.UserYInput)
     # # self.ids.add_widget(button)
-    # self.ids.add_widget(self.ids.temperaturelabel)
-    # self.ids.add_widget(self.ids.skylabel)
-    # self.ids.add_widget(self.ids.timelabel)
-    # self.ids.add_widget(self.ids.rainlabel)
-    # self.ids.add_widget(self.ids.windlabel)
+    # self.ids.add_widget(self.ids.TemperatureLabel)
+    # self.ids.add_widget(self.ids.SkyLabel)
+    # self.ids.add_widget(self.ids.TimeLabel)
+    # self.ids.add_widget(self.ids.RainLabel)
+    # self.ids.add_widget(self.ids.WindLabel)
     # self.ids.add_widget(self.ids.directionlabel)
 
 
@@ -167,13 +167,13 @@ class MainWindow(Screen):
         records = database1.get_all_relevant_current_data()  # get weather data for nearest location
 
         # Display the data
-        # self.ids.temperaturelabel.text = 'Temperature:' + temp
-        # self.ids.timelabel.text = 'Time:' + time
+        # self.ids.TemperatureLabel.text = 'Temperature:' + temp
+        # self.ids.TimeLabel.text = 'Time:' + time
 
-        #self.ids.skylabel.text = 'Condition:' + str(records.get_sunlight_exposure())
+        #self.ids.SkyLabel.text = 'Condition:' + str(records.get_sunlight_exposure())
 
-        self.ids.temperaturelabel.text = 'Temperature:' + str(records.get_temperature()) + "C"
-        self.ids.timelabel.text = 'Time:' + datetime.now().strftime("%H:%M:%S")
+        self.ids.TemperatureLabel.text = 'Temperature:' + str(records.get_temperature()) + "C"
+        self.ids.TimeLabel.text = 'Time:' + datetime.now().strftime("%H:%M:%S")
         if records.get_sunlight_exposure() < 25:
             sky_condition = " Overcast"
         elif 25 < records.get_sunlight_exposure() < 50:
@@ -181,9 +181,9 @@ class MainWindow(Screen):
         else:
             sky_condition = " Sunny"
 
-        self.ids.skylabel.text = 'Condition:' + sky_condition
-        self.ids.rainlabel.text = 'Rainfall:' + str(records.get_rainfall()) + "mm"
-        self.ids.windlabel.text = 'Wind Speed:' + str(records.get_wind_speeds()) + "km/hr"
+        self.ids.SkyLabel.text = 'Condition:' + sky_condition
+        self.ids.RainLabel.text = 'Rainfall:' + str(records.get_rainfall()) + "mm"
+        self.ids.WindLabel.text = 'Wind Speed:' + str(records.get_wind_speeds()) + "km/hr"
 
 
 class WindowManager(ScreenManager):
@@ -198,7 +198,7 @@ class WeatherLayout(App):
     # def __init__(self, **kwargs):
     #     super().__init__(**kwargs)
     #     # TODO make database1 accessible between each screen
-    #     #global database1 = Database_class.DatabaseClass()
+    #     #global database1 = Database.DatabaseClass()
 
     def build(self):
         return kv
