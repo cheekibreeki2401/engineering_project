@@ -80,7 +80,7 @@ class WeatherLayout(App):
 
         # location name entry
         if self.NameInput.text != '':
-            user_location = self.NameInput.text
+            user_location = self.NameInput.text.upper()
             station = self.database1.determine_best_location_name(user_location=user_location)
             if not station:
                 self.load_data()
