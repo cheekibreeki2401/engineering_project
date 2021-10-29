@@ -1,4 +1,4 @@
-class Weather_station:
+class WeatherStation:
     def __init__(self, weather_station_name, weather_station_location_x, weather_station_location_y, sunlight_exposure,
                  rain_fall, wind_speeds, wind_direction, temperature):
         self.weather_station_name = weather_station_name

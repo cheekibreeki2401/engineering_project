@@ -1,6 +1,6 @@
 import kivy
 import requests
-import Database_class
+import Database
 
 from bs4 import BeautifulSoup
 from kivy.app import App
@@ -22,23 +22,23 @@ class WeatherLayout(App):
         super().__init__(**kwargs)
 
         # Create widgets
-        self.skylabel = Label(text='Condition:', size_hint=(.2, .2), pos_hint={'center_x': 0.5, 'center_y': .6})
-        self.timelabel = Label(text='Time', size_hint=(.2, .2), pos_hint={'center_x': 0.5, 'center_y': .7})
-        self.rainlabel = Label(text='Rain', size_hint=(.2, .2), pos_hint={'center_x': 0.5, 'center_y': .4})
-        self.windlabel = Label(text='Wind', size_hint=(.2, .2), pos_hint={'center_x': 0.2, 'center_y': .3})
-        self.directionlabel = Label(text='Wind Direction', size_hint=(.2, .2),
+        self.SkyLabel = Label(text='Condition:', size_hint=(.2, .2), pos_hint={'center_x': 0.5, 'center_y': .6})
+        self.TimeLabel = Label(text='Time', size_hint=(.2, .2), pos_hint={'center_x': 0.5, 'center_y': .7})
+        self.RainLabel = Label(text='Rain', size_hint=(.2, .2), pos_hint={'center_x': 0.5, 'center_y': .4})
+        self.WindLabel = Label(text='Wind', size_hint=(.2, .2), pos_hint={'center_x': 0.2, 'center_y': .3})
+        self.DirectionLabel = Label(text='Wind Direction', size_hint=(.2, .2),
                                     pos_hint={'center_x': 0.65, 'center_y': .3})
-        self.temperaturelabel = Label(text='Temperature:', size_hint=(.2, .2),
+        self.TemperatureLabel = Label(text='Temperature:', size_hint=(.2, .2),
                                       pos_hint={'center_x': 0.5, 'center_y': .5})
-        self.descriptionlabel = Label(text='Enter Location:', size_hint=(.1, .1),
+        self.DescriptionLabel = Label(text='Enter Location:', size_hint=(.1, .1),
                                       pos_hint={'center_x': 0.2, 'center_y': .98})
-        self.usery_input = TextInput(size_hint=(.3, .1), pos_hint={'center_x': 0.6, 'center_y': .9})
-        self.userx_input = TextInput(size_hint=(.3, .1), pos_hint={'center_x': 0.25, 'center_y': .9})
-        self.locationlabel = Label(text='Location Name:', size_hint=(.2, .2),
+        self.UserYInput = TextInput(size_hint=(.3, .1), pos_hint={'center_x': 0.6, 'center_y': .9})
+        self.UserXInput = TextInput(size_hint=(.3, .1), pos_hint={'center_x': 0.25, 'center_y': .9})
+        self.LocationLabel = Label(text='Location Name:', size_hint=(.2, .2),
                                    pos_hint={'center_x': 0.2, 'center_y': .8})
-        self.name_input = TextInput(size_hint=(.3, .1), pos_hint={'center_x': 0.5, 'center_y': .8})
+        self.NameInput = TextInput(size_hint=(.3, .1), pos_hint={'center_x': 0.5, 'center_y': .8})
         # Create instance of database class
-        self.database1 = Database_class.DatabaseClass()
+        self.database1 = Database.DatabaseClass()
 
     def build(self):
         # Create window
@@ -52,61 +52,59 @@ class WeatherLayout(App):
         # Set button action
         button.bind(on_press=self.on_press_button)
 
-
-
         # Add widgets to the floating layout
-        layout.add_widget(self.descriptionlabel)
-        layout.add_widget(self.locationlabel)
-        layout.add_widget(self.name_input)
-        layout.add_widget(self.userx_input)
-        layout.add_widget(self.usery_input)
+        layout.add_widget(self.DescriptionLabel)
+        layout.add_widget(self.LocationLabel)
+        layout.add_widget(self.NameInput)
+        layout.add_widget(self.UserXInput)
+        layout.add_widget(self.UserYInput)
         layout.add_widget(button)
-        layout.add_widget(self.temperaturelabel)
-        layout.add_widget(self.skylabel)
-        layout.add_widget(self.timelabel)
-        layout.add_widget(self.rainlabel)
-        layout.add_widget(self.windlabel)
-        layout.add_widget(self.directionlabel)
+        layout.add_widget(self.TemperatureLabel)
+        layout.add_widget(self.SkyLabel)
+        layout.add_widget(self.TimeLabel)
+        layout.add_widget(self.RainLabel)
+        layout.add_widget(self.WindLabel)
+        layout.add_widget(self.DirectionLabel)
 
         return layout
 
     def on_press_button(self, instance):
         # get location from user
         # if all boxes contain entries
-        if (self.userx_input.text != '' or self.usery_input.text != '') and self.name_input.text != '':
-            self.descriptionlabel.text = 'Please enter an x&y coordinate or Location name'
-            self.userx_input.text = ''
-            self.usery_input.text = ''
-            self.name_input.text = ''
+        if (self.UserXInput.text != '' or self.UserYInput.text != '') and self.NameInput.text != '':
+            self.DescriptionLabel.text = 'Please enter an x&y coordinate or Location name'
+            self.UserXInput.text = ''
+            self.UserYInput.text = ''
+            self.NameInput.text = ''
         # location name entry
-        elif self.name_input.text != '':
-            userlocation = self.name_input.text
-            station = self.database1.determine_best_location_name(user_location=userlocation)
+        elif self.NameInput.text != '':
+            user_location = self.NameInput.text
+            station = self.database1.determine_best_location_name(user_location=user_location)
             if not station:
                 self.load_data()
             else:
-                self.descriptionlabel.text = 'Please enter a valid name'
-                self.userx_input.text = ''
-                self.usery_input.text = ''
-                self.name_input.text = ''
+                self.DescriptionLabel.text = 'Please enter a valid name'
+                self.UserXInput.text = ''
+                self.UserYInput.text = ''
+                self.NameInput.text = ''
         # xy inputs
-        elif self.userx_input.text != '' and self.usery_input.text != '':
+        elif self.UserXInput.text != '' and self.UserYInput.text != '':
             try:
-                userx = float(self.userx_input.text)
-                usery = float(self.usery_input.text)
-                self.database1.determine_best_location_xy(user_x=userx, user_y=usery)
+                user_x = float(self.UserXInput.text)
+                user_y = float(self.UserYInput.text)
+                self.database1.determine_best_location_xy(user_x=user_x, user_y=user_y)
                 self.load_data()
             except ValueError:
-                self.descriptionlabel.text = 'Please enter a valid input'
-                self.userx_input.text = ''
-                self.usery_input.text = ''
-                self.name_input.text = ''
+                self.DescriptionLabel.text = 'Please enter a valid input'
+                self.UserXInput.text = ''
+                self.UserYInput.text = ''
+                self.NameInput.text = ''
         # any other entry
         else:
-            self.descriptionlabel.text = 'Please enter a valid input'
-            self.userx_input.text = ''
-            self.usery_input.text = ''
-            self.name_input.text = ''
+            self.DescriptionLabel.text = 'Please enter a valid input'
+            self.UserXInput.text = ''
+            self.UserYInput.text = ''
+            self.NameInput.text = ''
 
     def load_data(self):
         # insert utilising database here (include error checking etc)
@@ -120,8 +118,8 @@ class WeatherLayout(App):
         records = self.database1.get_all_relevant_current_data()  # get weather data for nearest location
 
         # Display the data
-        self.temperaturelabel.text = 'Temperature:' + str(records.get_temperature())
-        self.timelabel.text = 'Time:' + datetime.now().strftime("%H:%M:%S")
+        self.TemperatureLabel.text = 'Temperature:' + str(records.get_temperature())
+        self.TimeLabel.text = 'Time:' + datetime.now().strftime("%H:%M:%S")
         if records.get_sunlight_exposure() < 25:
             sky_condition = " Overcast"
         elif 25 < records.get_sunlight_exposure() < 50:
@@ -129,12 +127,12 @@ class WeatherLayout(App):
         else:
             sky_condition = " Sunny"
 
-        self.skylabel.text = 'Condition:' + sky_condition
-        self.rainlabel.text = 'Rainfall:' + str(records.get_rainfall()) + "mm"
-        self.windlabel.text = 'Wind Speed:' + str(records.get_wind_speeds()) + "km/hr"
-        self.directionlabel.text = 'Wind Direction:' + str(records.get_wind_direction())
+        self.SkyLabel.text = 'Condition:' + sky_condition
+        self.RainLabel.text = 'Rainfall:' + str(records.get_rainfall()) + "mm"
+        self.WindLabel.text = 'Wind Speed:' + str(records.get_wind_speeds()) + "km/hr"
+        self.DirectionLabel.text = 'Wind Direction:' + str(records.get_wind_direction())
     # except :
-    #     self.descriptionlabel.text = 'Error'
+    #     self.DescriptionLabel.text = 'Error'
 
 
 if __name__ == '__main__':
