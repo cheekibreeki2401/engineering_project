@@ -2,7 +2,7 @@ import random
 
 from weather_station import Weather_station
 
-weather_station_names = ["Brisbane", "Townsville", "Cairns"]
+weather_station_names = ["BRISBANE", "TOWNSVILLE", "CAIRNS"]
 weather_station_locations_x = [27.407, 19.259, 16.92]
 weather_station_locations_y = [153.02, 146.81, 145.77]
 

@@ -65,7 +65,7 @@ class WelcomeWindow(Screen):
 
         # location name entry
         if self.ids.NameInput.text !='':
-            user_location = self.ids.NameInput.text
+            user_location = self.ids.NameInput.text.upper()
             station = database1.determine_best_location_name(user_location=user_location)
             if not station:
                 # self.ids.load_data()
