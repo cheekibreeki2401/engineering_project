@@ -11,6 +11,8 @@ from kivy.uix.label import Label
 from kivy.uix.floatlayout import FloatLayout
 from kivy.core.window import Window
 from datetime import datetime
+from pytz import timezone
+
 
 
 # https://realpython.com/mobile-app-kivy-python/ provides step by step guide for making an android app from kivy
@@ -80,7 +82,8 @@ class WeatherLayout(App):
 
         # location name entry
         if self.NameInput.text != '':
-            user_location = self.NameInput.text.upper()
+            user_location = self.NameInput.text.upper().strip()
+            self.NameInput.text = self.NameInput.text.title().strip()
             station = self.database1.determine_best_location_name(user_location=user_location)
             if not station:
                 self.load_data()
