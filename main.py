@@ -6,6 +6,7 @@ from bs4 import BeautifulSoup
 from kivy.app import App
 from kivy.uix.textinput import TextInput
 from kivy.uix.button import Button
+from kivy.uix.dropdown import DropDown
 from kivy.uix.label import Label
 from kivy.uix.floatlayout import FloatLayout
 from kivy.core.window import Window
@@ -162,6 +163,7 @@ class MainWindow(Screen):
 
         # Get data for this station (no idea if this works(need to review how accessing class data works)
         database1.random_data()  # randomly generating weather data
+        database1.get_new_data()
         records = database1.get_all_relevant_current_data()  # get weather data for nearest location
 
         # Display the data

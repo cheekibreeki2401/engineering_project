@@ -16,7 +16,12 @@ class DatabaseClass:
     def random_data(self):
         for i in range(len(weather_station_names)):
             sunlight_data = round(random.uniform(0, 100))
-            rain_fall = random.randint(0, 300)
+            if sunlight_data < 25:
+                rain_fall = random.randint(61, 300)
+            elif sunlight_data < 50:
+                rain_fall = random.randint(21, 60)
+            else:
+                rain_fall = random.randint(0, 20)
             wind_speed = random.randint(0, 150)
             wind_direction_determine = random.randint(0, 7)
             switcher = {
