@@ -1,6 +1,6 @@
 import random
 
-from weather_station import Weather_station
+from WeatherStation import WeatherStation
 
 weather_station_names = ["BRISBANE", "TOWNSVILLE", "CAIRNS"]
 weather_station_locations_x = [27.407, 19.259, 16.92]
@@ -36,7 +36,7 @@ class DatabaseClass:
             }
             new_temp = round(random.uniform(15, 40))
             wind_direction = switcher.get(wind_direction_determine, "No wind")
-            new_weather_station = Weather_station(weather_station_names[i], weather_station_locations_x[i],
+            new_weather_station = WeatherStation(weather_station_names[i], weather_station_locations_x[i],
                                                   weather_station_locations_x, sunlight_data, rain_fall, wind_speed,
                                                   wind_direction, new_temp)
             self.latest_station_data.append(new_weather_station)
