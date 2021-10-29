@@ -9,6 +9,7 @@ from kivy.uix.button import Button
 from kivy.uix.label import Label
 from kivy.uix.floatlayout import FloatLayout
 from kivy.core.window import Window
+from datetime import datetime
 
 # https://realpython.com/mobile-app-kivy-python/ provides step by step guide for making an android app from kivy
 
@@ -85,8 +86,8 @@ class WeatherLayout(App):
             # xy inputs
             elif self.userx_input.text != '' and self.usery_input.text != '':
                 try:
-                    userx = int(self.userx_input.text)
-                    usery = int(self.usery_input.text)
+                    userx = float(self.userx_input.text)
+                    usery = float(self.usery_input.text)
                     self.database1.determine_best_location_xy(user_x=userx, user_y=usery)
                     self.load_data()
                 except ValueError:
@@ -113,12 +114,18 @@ class WeatherLayout(App):
             records = self.database1.get_all_relevant_current_data()  # get weather data for nearest location
 
             # Display the data
-            # self.temperaturelabel.text = 'Temperature:' + temp
-            # self.timelabel.text = 'Time:' + time
+            self.temperaturelabel.text = 'Temperature:' + str(records.get_temperature())
+            self.timelabel.text = 'Time:' + datetime.now().strftime("%H:%M:%S")
+            if records.get_sunlight_exposure() < 25:
+                sky_condition = " Overcast"
+            elif 25 < records.get_sunlight_exposure() < 50:
+                sky_condition = " Slightly overcast"
+            else:
+                sky_condition = " Sunny"
 
-            self.skylabel.text = 'Condition:' + str(records.get_sunlight_exposure())
-            self.rainlabel.text = 'Rainfall:' + str(records.get_rainfall())
-            self.windlabel.text = 'Wind Speed:' + str(records.get_wind_speeds())
+            self.skylabel.text = 'Condition:' + sky_condition
+            self.rainlabel.text = 'Rainfall:' + str(records.get_rainfall()) + "mm"
+            self.windlabel.text = 'Wind Speed:' + str(records.get_wind_speeds()) + "km/hr"
             self.directionlabel.text = 'Wind Direction:' + str(records.get_wind_direction())
         # except :
         #     self.descriptionlabel.text = 'Error'
