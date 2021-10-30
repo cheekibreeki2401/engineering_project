@@ -98,6 +98,7 @@ class MainWindow(Screen):
         else:
             sky_condition = " Sunny"
 
+        self.ids.DirectionLabel.text = 'Wind Direction: ' + records.get_wind_direction()
         self.ids.SkyLabel.text = 'Condition:' + sky_condition
         self.ids.RainLabel.text = 'Rainfall:' + str(records.get_rainfall()) + "mm"
         self.ids.WindLabel.text = 'Wind Speed:' + str(records.get_wind_speeds()) + "km/hr"
