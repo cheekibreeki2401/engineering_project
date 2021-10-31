@@ -13,6 +13,8 @@ from kivy.core.window import Window
 from kivy.lang import Builder
 from kivy.uix.screenmanager import ScreenManager, Screen
 from datetime import datetime
+
+
 # from pytz import timezone
 
 # https://realpython.com/mobile-app-kivy-python/ provides step by step guide for making an android app from kivy
@@ -22,7 +24,6 @@ class WelcomeWindow(Screen):
     # Create instance of database class
     global database1
     database1 = Database.DatabaseClass()
-
 
     def on_press_button(self):
         # get location from user
@@ -35,7 +36,7 @@ class WelcomeWindow(Screen):
         #     self.ids.NameInput.text = ''
 
         # location name entry
-        if self.ids.NameInput.text !='':
+        if self.ids.NameInput.text != '':
             user_location = self.ids.NameInput.text.upper().strip()
             self.ids.NameInput.text = self.ids.NameInput.text.title().strip()
             station = database1.determine_best_location_name(user_location=user_location)
@@ -109,6 +110,7 @@ class WindowManager(ScreenManager):
     valid_station = False
     pass
 
+
 # load kivy build file with widgets and layouts
 kv = Builder.load_file("screens.kv")
 
@@ -120,6 +122,7 @@ class WeatherLayout(App):
 
         # Create a screen manager
         # return self.ids.screen_manager
+
 
 if __name__ == '__main__':
     app = WeatherLayout()
