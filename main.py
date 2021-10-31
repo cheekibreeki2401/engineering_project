@@ -85,24 +85,16 @@ class MainWindow(Screen):
         # select the station to be used (currently returning station name)
 
         # Get data for this station (no idea if this works(need to review how accessing class data works)
-        database1.random_data()  # randomly generating weather data
         database1.get_new_data()
         records = database1.get_all_relevant_current_data()  # get weather data for nearest location
 
         # Display the data
         self.ids.TemperatureLabel.text = 'Temperature:' + str(records.get_temperature()) + "C"
-        self.ids.TimeLabel.text = 'Time:' + datetime.now().strftime("%H:%M:%S")
-        if records.get_sunlight_exposure() < 25:
-            sky_condition = " Overcast"
-        elif 25 < records.get_sunlight_exposure() < 50:
-            sky_condition = " Slightly overcast"
-        else:
-            sky_condition = " Sunny"
-
-        self.ids.DirectionLabel.text = 'Wind Direction: ' + records.get_wind_direction()
-        self.ids.SkyLabel.text = 'Condition:' + sky_condition
-        self.ids.RainLabel.text = 'Rainfall:' + str(records.get_rainfall()) + "mm"
-        self.ids.WindLabel.text = 'Wind Speed:' + str(records.get_wind_speeds()) + "km/hr"
+        self.ids.TimeLabel.text = 'Time:' + str(records.get_local_time())
+        self.ids.SkyLabel.text = 'Condition:' + str(records.get_conditions())
+        self.ids.RainLabel.text = 'Rainfall:' + str(records.get_rainfall())
+        self.ids.WindLabel.text = 'Wind Speed:' + str(records.get_wind_speeds())
+        self.ids.HumidityLabel.text = 'Humidity:' + str(records.get_humidity())
 
 
 class WindowManager(ScreenManager):
